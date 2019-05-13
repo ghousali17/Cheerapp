@@ -28,7 +28,6 @@ class ChatSerializer(serializers.ModelSerializer):
         chat.save()
         return chat
 
-
 # do in python shell to see how to serialize data
 
 # from chat.models import Chat

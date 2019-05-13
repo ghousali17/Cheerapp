@@ -38,7 +38,7 @@ class CustomLayout extends React.Component {
                 }
                 
                  <Menu.Item key="3">
-                        <Link to="/">Chat</Link>
+                        <Link to="/chat">Chat</Link>
                     </Menu.Item>
                     
                     

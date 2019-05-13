@@ -2,12 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Hoc from "../hoc/hoc";
-
+import * as actions from "../store/actions/auth";
 class Profile extends React.Component {
+  componentDidMount() {
+    this.props.onTryAutoSignup();
+  }
+  constructor(props) {
+    super(props);
+    this.props.onTryAutoSignup();
+    
+  }
+
   render() {
-   // if (this.props.token === null) {
-     // return <Redirect to="/" />;
-   // }
+    //if (this.props.token === null) {
+      //return <Redirect to="/" />;
+    //}
     return (
       <div className="contact-profile">
         {this.props.username !== null ? (
@@ -32,5 +41,10 @@ const mapStateToProps = state => {
     token: state.auth.token
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    };
+};
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps,mapDispatchToProps)(Profile);

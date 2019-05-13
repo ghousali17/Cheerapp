@@ -124,14 +124,14 @@ class Chat extends React.Component {
 
   render() {
     return (
-    <div >
+    <div id="frame">
      <Sidepanel />
     <div className="content">
       <AddChatModal
               isVisible={this.props.showAddChatPopup}
               close={() => this.props.closeAddChatPopup()}
             />
-      <Profile />
+      <Profile {...this.props}/>
       <Hoc>
         <div className="messages">
           <ul id="chat-log">
@@ -172,7 +172,8 @@ class Chat extends React.Component {
 const mapStateToProps = state => {
   return {
     username: state.auth.username,
-    messages: state.message.messages
+    messages: state.message.messages,
+    token: state.auth.token
   };
 };
 

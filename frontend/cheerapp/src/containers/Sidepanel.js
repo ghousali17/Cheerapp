@@ -1,5 +1,6 @@
 import React from "react";
 import { Spin, Icon } from "antd";
+import {Redirect} from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import * as navActions from "../store/actions/nav";
@@ -80,97 +81,35 @@ class Sidepanel extends React.Component {
               className="online"
               alt=""
             />
-            <p>Mike Ross</p>
-            <i
-              className="fa fa-chevron-down expand-button"
-              aria-hidden="true"
-            />
-            <div id="status-options">
-              <ul>
-                <li id="status-online" className="active">
-                  <span className="status-circle" /> <p>Online</p>
-                </li>
-                <li id="status-away">
-                  <span className="status-circle" /> <p>Away</p>
-                </li>
-                <li id="status-busy">
-                  <span className="status-circle" /> <p>Busy</p>
-                </li>
-                <li id="status-offline">
-                  <span className="status-circle" /> <p>Offline</p>
-                </li>
-              </ul>
-            </div>
+          
             <div id="expanded">
-              {this.props.loading ? (
+              {
+                this.props.loading ? (
                 <Spin indicator={antIcon} />
               ) : this.props.isAuthenticated ? (
-                <button onClick={() => this.props.logout()} className="authBtn">
-                  <span>Logout</span>
-                </button>
-              ) : (
-                <div>
-                  <form method="POST" onSubmit={this.authenticate}>
-                    {this.state.loginForm ? (
-                      <div>
-                        <input
-                          name="username"
-                          type="text"
-                          placeholder="username"
-                        />
-                        <input
-                          name="password"
-                          type="password"
-                          placeholder="password"
-                        />
-                      </div>
-                    ) : (
-                      <div>
-                        <input
-                          name="username"
-                          type="text"
-                          placeholder="username"
-                        />
-                        <input name="email" type="email" placeholder="email" />
-                        <input
-                          name="password"
-                          type="password"
-                          placeholder="password"
-                        />
-                        <input
-                          name="password2"
-                          type="password"
-                          placeholder="password confirm"
-                        />
-                      </div>
-                    )}
 
-                    <button type="submit">Authenticate</button>
-                  </form>
+              <h1>{this.props.userName}</h1>
 
-                  <button onClick={this.changeForm}>Switch</button>
-                </div>
-              )}
+
+              ) 
+
+
+
+
+                : (      <Redirect to="/" />)
+            }
+
             </div>
           </div>
         </div>
-        <div id="search">
-          <label htmlFor="">
-            <i className="fa fa-search" aria-hidden="true" />
-          </label>
-          <input type="text" placeholder="Search Chats..." />
-        </div>
         <div id="contacts">
+        <h1> Contacts</h1>
           <ul>{activeChats}</ul>
         </div>
         <div id="bottom-bar">
           <button id="addChat" onClick={() => this.openAddChatPopup()}>
             <i className="fa fa-user-plus fa-fw" aria-hidden="true" />
             <span>Create chat</span>
-          </button>
-          <button id="settings">
-            <i className="fa fa-cog fa-fw" aria-hidden="true" />
-            <span>Settings</span>
           </button>
         </div>
       </div>

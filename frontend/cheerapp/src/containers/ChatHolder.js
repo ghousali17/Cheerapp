@@ -31,14 +31,15 @@ class ChatHolder extends React.Component {
 
   render() {
     return (
-        <div>
+        <div id="frame">
           <Sidepanel />
+          <div className="content">
             <AddChatModal
               isVisible={this.props.showAddChatPopup}
               close={() => this.props.closeAddChatPopup()}
             />
-            <Chat props={this.props}/>
-            <Profile />
+          <Profile />
+          </div>
           </div>   
     );
   }

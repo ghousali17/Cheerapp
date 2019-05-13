@@ -30,10 +30,10 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-    
-      <div id="frame">
+      <CustomLayout {...this.props}>
             <BaseRouter />
-      </div>
+      </CustomLayout>
+    
     
     </Router>
     );
