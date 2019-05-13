@@ -19,8 +19,12 @@ class CustomLayout extends React.Component {
                     style={{ lineHeight: '64px' }}
                 >
     
+                    <Menu.Item key="1">
+                        <Link to="/">Home</Link>
+                    </Menu.Item>
+                    
                 {
-                    this.props.isAuthenticated ?
+                    this.props.authenticated ?
     
                     <Menu.Item key="2" onClick={this.props.logout}>
                         Logout
@@ -32,10 +36,11 @@ class CustomLayout extends React.Component {
                         <Link to="/login">Login</Link>
                     </Menu.Item>
                 }
-    
-                    <Menu.Item key="1">
-                        <Link to="/">Posts</Link>
+                
+                 <Menu.Item key="3">
+                        <Link to="/">Chat</Link>
                     </Menu.Item>
+                    
                     
                 </Menu>
                 </Header>

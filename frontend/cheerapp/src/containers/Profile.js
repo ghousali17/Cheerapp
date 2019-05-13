@@ -5,9 +5,9 @@ import Hoc from "../hoc/hoc";
 
 class Profile extends React.Component {
   render() {
-    if (this.props.token === null) {
-      return <Redirect to="/" />;
-    }
+   // if (this.props.token === null) {
+     // return <Redirect to="/" />;
+   // }
     return (
       <div className="contact-profile">
         {this.props.username !== null ? (

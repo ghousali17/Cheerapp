@@ -2,6 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import WebSocketInstance from "../websocket";
 import Hoc from "../hoc/hoc";
+import Sidepanel from "../containers/Sidepanel";
+import Profile from "../containers/Profile";
+import AddChatModal from "../containers/Popup";
 
 class Chat extends React.Component {
   state = { message: "" };
@@ -121,6 +124,14 @@ class Chat extends React.Component {
 
   render() {
     return (
+    <div >
+     <Sidepanel />
+    <div className="content">
+      <AddChatModal
+              isVisible={this.props.showAddChatPopup}
+              close={() => this.props.closeAddChatPopup()}
+            />
+      <Profile />
       <Hoc>
         <div className="messages">
           <ul id="chat-log">
@@ -152,6 +163,8 @@ class Chat extends React.Component {
           </form>
         </div>
       </Hoc>
+      </div>
+    </div>
     );
   }
 }

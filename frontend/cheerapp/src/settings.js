@@ -1,4 +1,4 @@
-let DEBUG = false;
+let DEBUG = true;
 let HOST_URL = "https://justdjango-chat.herokuapp.com";
 let SOCKET_URL = "wss://justdjango-chat.herokuapp.com";
 if (DEBUG) {

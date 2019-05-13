@@ -1,22 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import BaseRouter from "./routes";
-import Sidepanel from "./containers/Sidepanel";
-import Profile from "./containers/Profile";
-import AddChatModal from "./containers/Popup";
-import * as actions from "./store/actions/auth";
-import * as navActions from "./store/actions/nav";
-import * as messageActions from "./store/actions/message";
-import WebSocketInstance from "./websocket";
+import BaseRouter from "../routes";
+import Sidepanel from "../containers/Sidepanel";
+import Profile from "../containers/Profile";
+import Chat from "../containers/Chat";
+import AddChatModal from "../containers/Popup";
+import * as actions from "../store/actions/auth";
+import * as navActions from "../store/actions/nav";
+import * as messageActions from "../store/actions/message";
+import WebSocketInstance from "../websocket";
 
-import "./assets/style.css";
 
-import CustomLayout from './containers/Layout';
-
-class App extends React.Component {
+class ChatHolder extends React.Component {
   componentDidMount() {
+
     this.props.onTryAutoSignup();
+
+    console.log("Params");
+    console.log(this.props.match);
   }
 
   constructor(props) {
@@ -29,13 +31,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-    
-      <div id="frame">
-            <BaseRouter />
-      </div>
-    
-    </Router>
+        <div>
+          <Sidepanel />
+            <AddChatModal
+              isVisible={this.props.showAddChatPopup}
+              close={() => this.props.closeAddChatPopup()}
+            />
+            <Chat props={this.props}/>
+            <Profile />
+          </div>   
     );
   }
 }
@@ -59,4 +63,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(ChatHolder);
