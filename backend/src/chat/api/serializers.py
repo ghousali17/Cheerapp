@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from chat.models import Chat, Contact
+from chat.models import Chat, Contact, Profile
 from chat.views import get_user_contact
 
 
@@ -28,6 +28,13 @@ class ChatSerializer(serializers.ModelSerializer):
         chat.save()
         return chat
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id', 'bio', 'location', 'birth_date')
+
+    
 # do in python shell to see how to serialize data
 
 # from chat.models import Chat

@@ -24,11 +24,18 @@ class CustomLayout extends React.Component {
                     </Menu.Item>
                     
                 {
-                    this.props.authenticated ?
-    
-                    <Menu.Item key="2" onClick={this.props.logout}>
+                    this.props.authenticated &&
+                    (<Menu.Item key="2" onClick={this.props.logout}>
                         Logout
-                    </Menu.Item>
+                    </Menu.Item>)
+                }
+                    {
+                        this.props.authenticated ?
+                    <Menu.Item key="3">
+                         <Link to={`/profile/${this.props.username}/`}>Profile</Link>
+                    </Menu.Item>          
+
+                    
     
                     :
     
@@ -37,7 +44,7 @@ class CustomLayout extends React.Component {
                     </Menu.Item>
                 }
                 
-                 <Menu.Item key="3">
+                 <Menu.Item key="4">
                         <Link to="/chat">Chat</Link>
                     </Menu.Item>
                     

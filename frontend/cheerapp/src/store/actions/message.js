@@ -36,3 +36,19 @@ export const getUserChats = (username, token) => {
       .then(res => dispatch(getUserChatsSuccess(res.data)));
   };
 };
+
+export const getUserProfile = (token) => {
+  return dispatch => {
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios.defaults.xsrfCookieName = "csrftoken";
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`
+    };
+    axios
+      .get(`${HOST_URL}/profile`)
+      .then(res => dispatch(getUserChatsSuccess(res.data)));
+  };
+
+
+}

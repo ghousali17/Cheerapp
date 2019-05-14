@@ -31,7 +31,7 @@ class App extends React.Component {
     return (
       <Router>
       <CustomLayout {...this.props}>
-            <BaseRouter />
+            <BaseRouter banan='stupid'/>
       </CustomLayout>
     
     
@@ -43,7 +43,8 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     showAddChatPopup: state.nav.showAddChatPopup,
-    authenticated: state.auth.token
+    authenticated: state.auth.token,
+    username: state.auth.username
   };
 };
 
