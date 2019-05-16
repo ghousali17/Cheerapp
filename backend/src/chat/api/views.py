@@ -88,7 +88,8 @@ class MatchListView(ListAPIView):
         queryset = Profile.objects.all()
         username = self.request.query_params.get('username', None)
         user = User.objects.get(username=username)
-        user_contact = get_user_contact(user)
+
+        user_contact = get_user_contact(username)
         if username is not None:
             profile = Profile.objects.get(user=user)
             if profile.mood == "listener":
@@ -97,7 +98,6 @@ class MatchListView(ListAPIView):
                 queryset = get_listener(user)
             else:
                 queryset = get_neutral(user)
-
        
         for profile in queryset:
             save = True
@@ -105,18 +105,17 @@ class MatchListView(ListAPIView):
             chat.save()
             username = profile.user.username
             contact = get_user_contact(username)
-            chat.participants.add(contact)
             chat.participants.add(user_contact)
-            list1= Chat.objects.all().filter(participants__in=[user_contact])
+            chat.participants.add(contact)
+            list1= Chat.objects.filter(participants__in=[user_contact])
             list2= list1.filter(participants__in=[contact])
-            if (len(list2) <=0):            
+            if (len(list2) <=1):   
+                print('SAVING!!!')         
                 chat.save()
             else:
+                print('NOT SAVING!!!') 
+                print(list2)
                 chat.delete()
-
-
-
-            
         return queryset
 
 
@@ -124,31 +123,30 @@ def get_neutral(user):
     queryset = Profile.objects.all()
     queryset = queryset.exclude(user=user)
     
-    if len(queryset) > 4:
-        queryset = queryset[:4]
+    if len(queryset) > 6:
+        queryset = queryset[:6]
     return queryset
+
 
 def get_listener(user):
     queryset = Profile.objects.all().filter(mood='listener')
     queryset = queryset.exclude(user=user)
    
-    if len(queryset) < 4:
-        queryset2 = Profile.objects.all().filter(mood='neutral')
-        new_set = list(chain(queryset,queryset2))
-        queryset = newset
-    if len(queryset) > 4:
-        queryset = queryset[:4]
+    if len(queryset) <=0:
+        queryset = Profile.objects.all()
+        queryset = queryset.exclude(user=user)
+    if len(queryset) > 6:
+        queryset = queryset[:6]
     return queryset
 
 def get_sharer(user):
     queryset = Profile.objects.all().filter(mood='sharer')
     queryset = queryset.exclude(user=user)
     
-    if len(queryset) < 4:
-        queryset2 = Profile.objects.all().filter(mood='neutral')
-        new_set = list(chain(queryset,queryset2))
-        queryset = newset
-    if len(queryset) > 4:
-        queryset = queryset[:4]
+    if len(queryset) <= 0 :
+        queryset = Profile.objects.all()
+        queryset = queryset.exclude(user=user)
+    if len(queryset) > 6:
+        queryset = queryset[:6]
     return queryset
 
