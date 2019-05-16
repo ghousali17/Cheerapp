@@ -12,7 +12,13 @@ def get_last_10_messages(chatId):
 
 def get_user_contact(username):
     user = get_object_or_404(User, username=username)
-    return get_object_or_404(Contact, user=user)
+    #contact = get_object_or_404(Contact, user=user)
+    try:
+    	contact = Contact.objects.get(user=user)
+    except Contact.DoesNotExist:
+    	contact= Contact(user=user)
+    	contact.save()
+    return contact
 
 
 def get_current_chat(chatId):

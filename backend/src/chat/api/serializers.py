@@ -32,8 +32,28 @@ class ChatSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'bio', 'location', 'birth_date')
+        fields = ('id', 'bio', 'location',  'fname','lname','mood')
 
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = ('id', 'messages', 'participants')
+        read_only = ('id')
+
+    def create(self, validated_data):
+        print(validated_data)
+        chat = Chat()
+        chat.save()
+        for username in participants:
+            contact = get_user_contact(username)
+            chat.participants.add(contact)
+        chat.save()
+        return chat
+
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'bio', 'location',  'fname','lname','mood')
     
 # do in python shell to see how to serialize data
 
