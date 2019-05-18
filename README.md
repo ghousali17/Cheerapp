@@ -49,6 +49,9 @@ To build for deployment:
 npm run build
 ```
 
+## References 
+https://github.com/justdjango/justchat/
+https://github.com/justdjango/DjReact
 
 ## Available Scripts
 
@@ -109,8 +112,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ma
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-## References 
-https://github.com/justdjango/
+
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
