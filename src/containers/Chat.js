@@ -131,7 +131,7 @@ class Chat extends React.Component {
               isVisible={this.props.showAddChatPopup}
               close={() => this.props.closeAddChatPopup()}
             />
-      <Profile {...this.props}/>
+      <Profile {...this.props} />
       <Hoc>
         <div className="messages">
           <ul id="chat-log">

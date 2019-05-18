@@ -1,11 +1,14 @@
 import React from "react";
 import { Spin, Icon } from "antd";
-import {Redirect} from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import * as navActions from "../store/actions/nav";
 import * as messageActions from "../store/actions/message";
 import Contact from "../components/Contact";
+import "../assets/style.css";
+import axios from "axios";
+import { HOST_URL } from "../settings";
+import { Redirect } from "react-router-dom";
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -40,6 +43,14 @@ class Sidepanel extends React.Component {
   openAddChatPopup() {
     this.props.addChat();
   }
+  
+  getMatches(){
+    console.log('Find matches!');
+    axios.get(`${HOST_URL}/profile/matches/?username=${this.props.username}`).then(res=>{
+      window.location.reload();
+    });
+      
+  }
 
   changeForm = () => {
     this.setState({ loginForm: !this.state.loginForm });
@@ -61,16 +72,20 @@ class Sidepanel extends React.Component {
 
   render() {
     let activeChats = this.props.chats.map(c => {
+
       return (
         <Contact
           key={c.id}
-          name="Harvey Specter"
+          name={ c.participants[0] == this.props.username ? c.participants[1] : c.participants[0] }
           picURL="http://emilcarlsson.se/assets/louislitt.png"
           status="busy"
-          chatURL={`/${c.id}`}
+          chatURL={`/chat/${c.id}`}
         />
       );
     });
+    if (!this.props.isAuthenticated){
+    return(<Redirect to="/"/>);  
+    }else{
     return (
       <div id="sidepanel">
         <div id="profile">
@@ -81,29 +96,11 @@ class Sidepanel extends React.Component {
               className="online"
               alt=""
             />
-          
-            <div id="expanded">
-              {
-                this.props.loading ? (
-                <Spin indicator={antIcon} />
-              ) : this.props.isAuthenticated ? (
-
-              <h1>{this.props.userName}</h1>
-
-
-              ) 
-
-
-
-
-                : (      <Redirect to="/" />)
-            }
-
-            </div>
+            <p>{this.props.username}</p>   
           </div>
         </div>
+      
         <div id="contacts">
-        <h1> Contacts</h1>
           <ul>{activeChats}</ul>
         </div>
         <div id="bottom-bar">
@@ -111,9 +108,14 @@ class Sidepanel extends React.Component {
             <i className="fa fa-user-plus fa-fw" aria-hidden="true" />
             <span>Create chat</span>
           </button>
+          <button id="addChat" onClick={() => this.getMatches()}>
+            <i className="fa fa-user-plus fa-fw" aria-hidden="true" />
+            <span>Find matches</span>
+          </button>
+        
         </div>
       </div>
-    );
+    );}
   }
 }
 

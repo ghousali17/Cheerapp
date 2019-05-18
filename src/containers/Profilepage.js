@@ -27,10 +27,12 @@ class ProfilePage extends React.Component {
    console.log(this.state.userprofile);
     return (
       <div>
-       <Card title={this.state.userprofile.bio}>
-          <p> {this.state.userprofile.location} </p>
-      </Card>
-       <CustomForm
+      <div class="profile">
+      </div>
+
+       <CustomForm class="updateform"
+          form = { {name: 'validate_other'} }
+          profile = {this.state.userprofile}
           {...this.props}
           token={this.props.token}
           requestType="put"

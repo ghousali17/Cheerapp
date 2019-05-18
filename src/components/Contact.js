@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const Contact = props => (
-  <NavLink to={`chat${props.chatURL}`} style={{ color: "#fff" }}>
+  <NavLink to={`${props.chatURL}`} style={{ color: "#fff" }}>
     <li className="contact">
       <div className="wrap">
         <span className={`contact-status ${props.status}`} />

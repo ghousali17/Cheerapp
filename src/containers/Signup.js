@@ -3,25 +3,53 @@ import { Form, Input, Icon, Button } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
-
+import * as navActions from "../store/actions/nav";
+import * as messageActions from "../store/actions/message";
+import { Redirect } from "react-router-dom";
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
   };
+   
+
+  waitForAuthDetails() {
+   const component = this;
+
+    setTimeout(function() {
+      if (
+        component.props.token !== null &&
+        component.props.token !== undefined
+      ) {
+        component.props.getUserChats(
+          component.props.username,
+          component.props.token
+        );
+        return;
+      } else {
+        console.log("waiting for authentication details...");
+        component.waitForAuthDetails();
+      }
+    }, 100);
+  }
+
+  componentDidMount() {
+    this.waitForAuthDetails();
+  }
+
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.onAuth(
+        this.props.signup(
             values.userName,
             values.email,
             values.password,
             values.confirm
         );
-        this.props.history.push('/');
+       
       }
     });
   }
@@ -51,10 +79,23 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
-    return (
+     let errorMessage = null;
+    if (this.props.error) {
+        errorMessage = (
+          <div>
+            <p class="error"> Your password can't be too similar to your other personal information.</p>
+            <p class="error">Your password must contain at least 8 characters.</p>
+            <p class="error">Your password can't be entirely numeric.</p>
+           </div>
+        );
+    }
+    if(this.props.isAuthenticated){
+      return(<Redirect to="/"/>);  
+    }else{
+    return  (
+    
       <Form onSubmit={this.handleSubmit}>
-        
+        {errorMessage}
         <FormItem>
             {getFieldDecorator('userName', {
                 rules: [{ required: true, message: 'Please input your username!' }],
@@ -111,23 +152,35 @@ class RegistrationForm extends React.Component {
         </FormItem>
 
       </Form>
-    );
+    );}
   }
 }
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
-const mapStateToProps = (state) => {
-    return {
-        loading: state.loading,
-        error: state.error
-    }
-}
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    token: state.auth.token,
+    username: state.auth.username,
+    chats: state.message.chats,
+    error: state.auth.error
+  };
+};
 
 const mapDispatchToProps = dispatch => {
-    return {
-        onAuth: (username, email, password1, password2) => dispatch(actions.authSignup(username, email, password1, password2)) 
-    }
-}
+  return {
+    login: (userName, password) =>
+      dispatch(actions.authLogin(userName, password)),
+    logout: () => dispatch(actions.logout()),
+    signup: (username, email, password1, password2) =>
+      dispatch(actions.authSignup(username, email, password1, password2)),
+    addChat: () => dispatch(navActions.openAddChatPopup()),
+    getUserChats: (username, token) =>
+      dispatch(messageActions.getUserChats(username, token))
+  };
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedRegistrationForm);

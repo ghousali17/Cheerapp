@@ -10,8 +10,10 @@ import * as navActions from "./store/actions/nav";
 import * as messageActions from "./store/actions/message";
 import WebSocketInstance from "./websocket";
 
+
 import "./assets/style.css";
 
+import 'antd/dist/antd.css'
 import CustomLayout from './containers/Layout';
 
 class App extends React.Component {

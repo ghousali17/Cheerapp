@@ -1,9 +1,27 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import {
+  Form,
+  Select,
+  InputNumber,
+  Switch,
+  Radio,
+  Slider,
+  Button,
+  Upload,
+  Icon,
+  Rate,
+  Checkbox,
+  Row,
+  Col,
+  Input
+} from 'antd';
 import { connect } from "react-redux";
 import axios from "axios";
 import { HOST_URL } from "../settings";
 const FormItem = Form.Item;
+
+
+const { Option } = Select;
 
 
 class CustomForm extends React.Component {
@@ -11,18 +29,42 @@ class CustomForm extends React.Component {
   handleFormSubmit = async (event, requestType, profileID) => {
     event.preventDefault();
 
-    const postObj = {
-      bio: event.target.elements.bio.value,
-      location: event.target.elements.location.value
-    }
-/*
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    axios.defaults.headers = {
-      "Content-Type": "application/json",
-      Authorization: `Token ${this.props.token}`,
-    };*/
+    var fname = this.props.profile.fname;
+    var lname = this.props.profile.lname;
+    var bio = this.props.profile.bio;
+    var location = this.props.profile.location;
+    var mood = this.props.profile.mood;
     
+    if (event.target.elements.fname.value !== "")
+    {
+        fname = event.target.elements.fname.value;
+    }
+    if (event.target.elements.lname.value !== "")
+    {
+        lname = event.target.elements.lname.value;
+    }
+    if (event.target.elements.bio.value !== "")
+    {
+        bio = event.target.elements.bio.value;
+    }
+    if (event.target.elements.location.value !== "")
+    {
+        location = event.target.elements.location.value;
+    }
+    if (event.target.elements.mood.value !== "")
+    {
+        mood = event.target.elements.mood.value;
+    }
+
+    const postObj = {
+      fname: fname,
+      lname:lname,
+      bio: bio,
+      location: location,
+      mood: mood
+    }
+
+
    if (requestType === "put") {
       await axios.put(`${HOST_URL}/profile/${profileID}/update/`, postObj)
         .then(res => {
@@ -31,12 +73,25 @@ class CustomForm extends React.Component {
           }
         })
     }
-  };
+  }
+
+  normFile = e => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  }
+
 
   render() {
+   
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
+    };
     return (
-      <div>
-        <Form
+       <Form
           onSubmit={event =>
             this.handleFormSubmit(
               event,
@@ -45,19 +100,42 @@ class CustomForm extends React.Component {
             )
           }
         >
-          <FormItem label="Title">
-            <Input name="bio" placeholder="Put a title here" />
+         <FormItem label="First Name" >
+            <Input name="fname" placeholder="Enter your first name" placeholder={this.props.profile.fname} />
           </FormItem>
-          <FormItem label="Content">
-            <Input name="location" placeholder="Enter some content ..." />
+          <FormItem label="Last name">
+            <Input name="lname" placeholder="Enter your last name" placeholder={this.props.profile.lname}/>
           </FormItem>
-          <FormItem>
-            <Button type="primary" htmlType="submit">
-              {this.props.btnText}
-            </Button>
+          <FormItem label="Bio">
+            <Input name="bio" placeholder="Write a short personal bio" placeholder={this.props.profile.bio}/>
           </FormItem>
-        </Form>
-      </div>
+          <FormItem label="City">
+            <Input name="location" placeholder="Enter the name of your city" placeholder={this.props.profile.location} />
+          </FormItem>
+       
+        <Form.Item label="How are you feeling today?" >
+            <Radio.Group name="mood" placeholder = {this.props.profile.mood}>
+              <Radio.Button value="listener">I want to listen</Radio.Button>
+              <Radio.Button value="sharer">I want to share</Radio.Button>
+              <Radio.Button value="neutral">Surprise me</Radio.Button>
+            </Radio.Group>
+        </Form.Item>
+
+        <Form.Item label="Upload" extra="longgggggggggggggggggggggggggggggggggg">
+            <Upload name="logo" action="/upload.do" listType="picture">
+              <Button>
+                <Icon type="upload" /> Click to upload
+              </Button>
+            </Upload>
+        </Form.Item>
+
+        
+        <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+          <Button type="primary" htmlType="submit">
+            {this.props.btnText}
+          </Button>
+        </Form.Item>
+      </Form>
     );
   }
 }
@@ -69,3 +147,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(CustomForm);
+
+
+

@@ -4,9 +4,13 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Redirect } from "react-router-dom";
 import * as actions from '../store/actions/auth';
-
+import * as navActions from "../store/actions/nav";
+import * as messageActions from "../store/actions/message";
 const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
+
+
 
 
 class NormalLoginForm extends React.Component {
@@ -14,26 +18,48 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onAuth(values.userName, values.password);
-        console.log(this.props.error)
+        this.props.login(values.userName, values.password);
         //this.props.history.push('/');
       }
     });
   }
+   waitForAuthDetails() {
+    const component = this;
+    setTimeout(function() {
+      if (
+        component.props.token !== null &&
+        component.props.token !== undefined
+      ) {
+        component.props.getUserChats(
+          component.props.username,
+          component.props.token
+        );
+        return;
+      } else {
+        console.log("waiting for authentication details...");
+        component.waitForAuthDetails();
+      }
+    }, 100);
+  }
+
+  componentDidMount() {
+    this.waitForAuthDetails();
+  }
+
 
   render() {
     let errorMessage = null;
     if (this.props.error) {
         errorMessage = (
-            <p color="red">Invalid Username or password</p>
+            <p class="error"> Invalid username or password!</p>
         );
     }
 
     const { getFieldDecorator } = this.props.form;
-     if (this.props.isAuthenticated) {
-      return (<Redirect to="/" />);
+    if(this.props.isAuthenticated){
+      return(<Redirect to="/"/>);  
     }else{
-        return (
+    return (
         <div>
             {errorMessage}
             {
@@ -74,26 +100,37 @@ class NormalLoginForm extends React.Component {
                 </Form>
             }
       </div>
-    );}
-    
+    );
+}
   }
 }
 
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
-const mapStateToProps = (state) => {
-    return {
-        loading: state.loading,
-        error: state.error,
-        isAuthenticated: state.token
-    }
-}
 
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    token: state.auth.token,
+    username: state.auth.username,
+    chats: state.message.chats,
+    error: state.auth.error
+  };
+};
 
 const mapDispatchToProps = dispatch => {
-    return {
-        onAuth: (username, password) => dispatch(actions.authLogin(username, password)) 
-    }
-}
+  return {
+    login: (userName, password) =>
+      dispatch(actions.authLogin(userName, password)),
+    logout: () => dispatch(actions.logout()),
+    signup: (username, email, password1, password2) =>
+      dispatch(actions.authSignup(username, email, password1, password2)),
+    addChat: () => dispatch(navActions.openAddChatPopup()),
+    getUserChats: (username, token) =>
+      dispatch(messageActions.getUserChats(username, token))
+  };
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm);

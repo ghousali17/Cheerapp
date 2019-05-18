@@ -20,43 +20,50 @@ class CustomLayout extends React.Component {
                 >
     
                     <Menu.Item key="1">
-                        <Link to="/">Home</Link>
+                         <Link  to="/#page-top">Home</Link>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        <Link  to="/#about">About</Link>
+                    </Menu.Item>
+                    <Menu.Item key="3">
+                         <Link  to="/#signUp">Contact</Link>
                     </Menu.Item>
                     
-                {
-                    this.props.authenticated &&
-                    (<Menu.Item key="2" onClick={this.props.logout}>
-                        Logout
-                    </Menu.Item>)
-                }
+                
                     {
                         this.props.authenticated ?
-                    <Menu.Item key="3">
+                    <Menu.Item key="4">
                          <Link to={`/profile/${this.props.username}/`}>Profile</Link>
-                    </Menu.Item>          
-
-                    
-    
+                    </Menu.Item>             
                     :
-    
-                    <Menu.Item key="2">
+                    <Menu.Item key="4">
                         <Link to="/login">Login</Link>
                     </Menu.Item>
                 }
-                
-                 <Menu.Item key="4">
+                {
+                    this.props.authenticated ?
+                    (<Menu.Item key="5" onClick={this.props.logout}>
+                        Logout
+                    </Menu.Item>):
+                    <Menu.Item key="5">
+                        <Link to="/signup">signup</Link>
+                    </Menu.Item>
+
+                }
+                {
+                    this.props.authenticated &&
+                    ( <Menu.Item key="6">
                         <Link to="/chat">Chat</Link>
                     </Menu.Item>
+                    )
+                }
+                
                     
                     
                 </Menu>
                 </Header>
-                <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
-                </Breadcrumb>
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+                <Content style={{ padding: '0 0px' }}>
+                    <div >
                         {this.props.children}
                     </div>
                 </Content>
