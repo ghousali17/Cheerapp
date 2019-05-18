@@ -1,4 +1,4 @@
-#!/root/Desktop/django-apps/env/bin/python3
+#!/root/Desktop/django-apps/upload/CSCI4140-Cheerapp/env/bin/python3
 from django.core import management
 
 if __name__ == "__main__":

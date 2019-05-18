@@ -1,4 +1,4 @@
-#!/root/Desktop/django-apps/env/bin/python
+#!/root/Desktop/django-apps/upload/CSCI4140-Cheerapp/env/bin/python
 
 import sys
 import getopt

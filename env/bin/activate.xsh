@@ -25,7 +25,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/root/Desktop/django-apps/env"
+$VIRTUAL_ENV = r"/root/Desktop/django-apps/upload/CSCI4140-Cheerapp/env"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

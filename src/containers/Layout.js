@@ -20,13 +20,13 @@ class CustomLayout extends React.Component {
                 >
     
                     <Menu.Item key="1">
-                         <Link  to="/#page-top">Home</Link>
+                         <a  href="">Home</a>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <Link  to="/#about">About</Link>
+                        <a href="/#about">About</a>
                     </Menu.Item>
                     <Menu.Item key="3">
-                         <Link  to="/#signUp">Contact</Link>
+                         <a href="/#signUp">Contact</a>
                     </Menu.Item>
                     
                 
