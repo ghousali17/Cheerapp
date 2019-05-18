@@ -10,6 +10,7 @@ source env/bin/activate
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
+/etc/init.d/redis-server restart
 python manage.py runserver
 ```
 
@@ -22,6 +23,7 @@ npm start
 
 
 We have created the following users for your ease in testing.
+
 ```json
 username: listener1
 username: listener2
