@@ -1,4 +1,50 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To run the backend, run:
+
+## Set up and deployment
+After cloining the repository move into CSCI4140-Cheerapp directory and follow the following commands. 
+
+```json
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+
+To run the frontend:
+
+```json
+npm i
+npm start
+```
+
+
+We have created the following users for your ease in testing.
+username: listener1
+username: listener2
+username: sharer1
+username: sharer2
+username: neutral1 
+
+passwords for all these users: 1234
+
+To develop locally:
+
+```
+1. Change the `DEBUG` flag in `src/settings.js`
+2. Create two users (easiest way might be to run `python manage.py createsuperuser` twice)
+3. Using django admin, create a `Contact` object for each user.
+4. Make sure you have an instance of redis running. 
+```
+
+To build for deployment:
+
+```json
+npm run build
+```
+
 
 ## Available Scripts
 
@@ -59,7 +105,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ma
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
+## References 
+https://github.com/justdjango/
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
