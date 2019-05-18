@@ -22,11 +22,12 @@ npm start
 
 
 We have created the following users for your ease in testing.
-username: listener1
+```username: listener1
 username: listener2
 username: sharer1
 username: sharer2
 username: neutral1 
+```
 
 passwords for all these users: 1234
 
